@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bragg &amp; Bailey | Senior Technology Consulting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Bragg &amp; Bailey provides patient, professional technology support and advisory services for older adults and their families." />
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-elevated: #020617;
+      --panel: #020617;
+      --card: rgba(15, 23, 42, 0.95);
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      padding-inline: 20px;
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text-main);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.2), transparent 55%),
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 55%),
+        radial-gradient(circle at bottom, rgba(34, 197, 94, 0.18), transparent 60%),
+        linear-gradient(to bottom, #020617, #020617 45%, #020617 100%);
+      background-attachment: fixed;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* SHELL / GRID BACKDROP LIKE TAILWIND SITE */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+      background-size: 120px 120px;
+      mask-image: radial-gradient(circle at center, black, transparent 70%);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-inline: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .shell {
+        padding-inline: 1rem;
+      }
+    }
+
+    /* HEADER / NAV like tailwindcss.com */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.75));
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      padding-inline: 20px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 0.85rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      background-image: conic-gradient(from 140deg, #22c55e, #06b6d4, #3b82f6, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #0b1120;
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 12px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-text span:first-child {
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+
+    .brand-text span:last-child {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #f9fafb;
+    }
+
+    .nav-cta {
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 0.85rem;
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.16), transparent 55%);
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      padding: 2.2rem 0 3.5rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr);
+      gap: 2.4rem;
+      align-items: center;
+      margin-top: 1.3rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -120px -80px auto;
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.24), transparent 60%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 55%);
+      opacity: 0.9;
+      filter: blur(16px);
+      z-index: -1;
+    }
+
+    .hero-kicker {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #a5f3fc;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.25rem, 3vw + 1rem, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #f9fafb;
+    }
+
+    .hero-subtitle {
+      margin-top: 1rem;
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      margin-top: 1.5rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .metric {
+      padding-left: 0.7rem;
+      border-left: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .metric span {
+      display: block;
+    }
+
+    .metric span:first-child {
+      color: #e5e7eb;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.9rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #22c55e, #16a34a);
+      color: #022c22;
+      border-color: rgba(34, 197, 94, 0.9);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 18px 45px rgba(22, 163, 74, 0.55);
+    }
+
+    .btn-outline {
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5e7eb;
+      border-color: rgba(148, 163, 184, 0.6);
+    }
+
+    .hero-aside {
+      border-radius: 20px;
+      padding: 1.1rem;
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.22), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.95), #020617 60%);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 20px 60px rgba(15, 23, 42, 0.95);
+    }
+
+    .hero-aside h2 {
+      margin-top: 0;
+      font-size: 1.02rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .hero-aside p {
+      font-size: 0.9rem;
+      color: #d1d5db;
+      margin-top: 0.45rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-aside img {
+      display: block;
+      width: 100%;
+      border-radius: 14px;
+      object-fit: contain;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    /* SECTIONS */
+    .section {
+      margin: 2.8rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+      align-items: baseline;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 30rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      position: relative;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96));
+      border-radius: 18px;
+      padding: 1.05rem 1.1rem 1.15rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 22px 70px rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40% auto auto -40%;
+      background: radial-gradient(circle at center, rgba(34, 197, 94, 0.25), transparent 60%);
+      opacity: 0;
+      transition: opacity 200ms ease-out;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.45rem;
+      font-size: 0.98rem;
+      color: #f9fafb;
+    }
+
+    .card p {
+      margin: 0;
+      margin-bottom: 0.4rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .card ul {
+      margin: 0.4rem 0 0;
+      padding-left: 1rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .card li {
+      margin-bottom: 0.25rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .highlight-box {
+      background: var(--accent-soft);
+      border-radius: 12px;
+      padding: 0.7rem 0.85rem;
+      font-size: 0.86rem;
+      margin-top: 0.55rem;
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      color: var(--text-muted);
+    }
+
+    footer {
+      border-top: 1px solid rgba(15, 23, 42, 0.95);
+      padding: 1.15rem 0 1.8rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      background: radial-gradient(circle at bottom, rgba(15, 23, 42, 0.95), #020617 55%);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-aside {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .cards {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVIGATION -->
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="brand-mark">BB</div>
+        <div class="brand-text">
+          <span>BRAGG &amp; BAILEY</span>
+          <span>Senior Technology Consulting</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#approach">Our Approach</a>
+        <a href="#contact" class="nav-cta">Book a Visit</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-kicker">Specialized support for older adults</div>
+        <h1>Professional, patient tech help for the people you care about most.</h1>
+        <p class="hero-subtitle">
+          Bragg &amp; Bailey combines the care of a family member with the discipline of a consulting firm.
+          We help seniors understand, secure, and confidently use their technology &mdash; without jargon.
+        </p>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <span>In-home &amp; remote sessions</span>
+            <span>Flexible scheduling for families and caregivers</span>
+          </div>
+          <div class="metric">
+            <span>Clear, upfront pricing</span>
+            <span>No surprise fees, ever.</span>
+          </div>
+        </div>
+
+        <div class="hero-actions" id="contact">
+          <a class="btn btn-primary" href="tel:+1-555-123-4567">📞 Call to schedule</a>
+          <a class="btn btn-outline" href="mailto:hello@braggandbailey.com?subject=Bragg%20%26%20Bailey%20Consultation">
+            ✉️ Email our team
+          </a>
+        </div>
+      </div>
+
+      <aside class="hero-aside" id="team-photo">
+        <h2>Bragg &amp; Bailey</h2>
+        <p>A clean, modern portrait helps clients feel confident about who is entering their home.</p>
+        <img src="team-photo.png" alt="Bragg & Bailey" style="width:100%;border-radius:12px;object-fit:contain;" />
+      </aside>
+    </section>
+
+    <!-- TEAM PHOTO SECTION -->
+
+
+    <!-- MIDDLE GRID: TEAM + ENGAGEMENT -->
+    <div class="middle-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:2.5rem 0;">
+
+      <!-- TEAM SECTION -->
+
+        <div style="background:var(--card);padding:1.8rem;border-radius:18px;border:1px solid var(--border-subtle);box-shadow:0 14px 35px rgba(15,23,42,0.7);margin:0;">
+          <img src="team-photo.png" alt="Bragg & Bailey" style="width:100%;border-radius:14px;object-fit:contain;margin-bottom:0.85rem;" />
+          <p style="font-size:0.9rem;color:var(--text-muted);margin:0;">Upload a transparent PNG (cutout image) of both founders.</p>
+        </div>
+      </section>
+
+      <!-- ENGAGEMENT OVERVIEW SECTION -->
+      <section class="section" id="engagement-overview" style="margin:0;">
+        <div class="section-header" style="margin-bottom:1rem;">
+          <div class="section-title">Engagement Overview</div>
+          <div class="section-subtitle">Clear expectations, transparent pricing, and documented work every time.</div>
+        </div>
+        <div style="background:var(--card);padding:1.8rem;border-radius:18px;border:1px solid var(--border-subtle);box-shadow:0 14px 35px rgba(15,23,42,0.7);margin:0;">
+          <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.55;">
+            One-page agreement before every visit. Documented work. Follow-up after each session.
+          </p>
+          <ul style="color:var(--text-muted);font-size:0.9rem;line-height:1.55;margin-top:1rem;padding-left:1.1rem;">
+            <li><strong>Visit Duration:</strong> 60–90 minutes</li>
+            <li><strong>Pre-Visit Fee:</strong> $25–$40 (applied to visit)</li>
+            <li><strong>Service Area:</strong> Your City / Region</li>
+          </ul>
+          <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">Focus Areas:</p>
+          <div class="badge-row">
+            <span class="badge">Device &amp; account setup</span>
+            <span class="badge">Security &amp; scam checks</span>
+            <span class="badge">Wi-Fi &amp; home tech</span>
+            <span class="badge">1:1 education</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SERVICES -->
+    <section id="services" class="section">
+      <div class="section-header">
+        <div class="section-title">Advisory &amp; hands-on services</div>
+        <div class="section-subtitle">
+          We work directly with seniors and their families to remove friction from everyday technology:
+          communication, security, connection, and confidence.
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Home &amp; device setup</h3>
+          <p>Bring new or existing devices into a stable, secure baseline.</p>
+          <ul>
+            <li>Smartphone &amp; tablet configuration</li>
+            <li>Apple ID / Google account cleanup</li>
+            <li>TV / streaming services (Netflix, YouTube, etc.)</li>
+            <li>Printer and computer setup</li>
+          </ul>
+          <div class="pill">Ideal for: new devices or “everything feels messy”</div>
+        </div>
+
+        <div class="card">
+          <h3>Security &amp; scam protection</h3>
+          <p>Reduce risk from phishing, fraud, and confusing pop-ups.</p>
+          <ul>
+            <li>Scam &amp; fraud review of emails and messages</li>
+            <li>Device clean-up and software updates</li>
+            <li>Password reset and manager setup</li>
+            <li>Practical safety guidelines for everyday use</li>
+          </ul>
+          <div class="pill">Ideal for: suspicious calls, emails, or pop-ups</div>
+        </div>
+
+        <div class="card">
+          <h3>Ongoing tech coaching</h3>
+          <p>Structured, patient sessions that build confidence over time.</p>
+          <ul>
+            <li>Video calling (Zoom, FaceTime, etc.)</li>
+            <li>Photo sharing and backup</li>
+            <li>Online forms and portals (banks, doctors, etc.)</li>
+            <li>Custom “how-to” notes for future reference</li>
+          </ul>
+          <div class="pill">Ideal for: families supporting an aging parent</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="section">
+      <div class="section-header">
+        <div class="section-title">Transparent pricing</div>
+        <div class="section-subtitle">
+          Every engagement begins with a written summary of work and expected fees. No surprises,
+          and no pressure to continue if the scope changes.
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Pre-visit fee</h3>
+          <p>
+            A small, non-refundable fee to reserve your appointment and cover preparation and travel.
+            At our discretion, we may waive or refund this in special circumstances.
+          </p>
+          <ul>
+            <li>Typical range: <strong>$25–$40</strong></li>
+            <li>Collected when booking</li>
+            <li>Applied toward your visit total</li>
+          </ul>
+          <div class="highlight-box">
+            This fee ensures we can reserve dedicated technician time for you or your family member.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Session structure</h3>
+          <p>Most work is billed on an hourly basis, with clear estimates before we begin.</p>
+          <ul>
+            <li>Hourly rate: <strong>$45–$60/hr</strong> depending on scope</li>
+            <li>Billed in 15-minute increments after the first hour</li>
+            <li>Common setups and fixes may be quoted as flat fees</li>
+          </ul>
+          <div class="pill">You approve scope &amp; cost before work starts</div>
+        </div>
+
+        <div class="card">
+          <h3>Satisfaction &amp; follow-up</h3>
+          <p>
+            If something isn’t working the way we agreed at the end of the visit, we want to know about it.
+          </p>
+          <ul>
+            <li>Proactive follow-up after each session</li>
+            <li><strong>One free adjustment</strong> within 14 days for the same issue</li>
+            <li>Additional work priced at standard rates</li>
+          </ul>
+          <div class="highlight-box">
+            Our goal is long-term confidence, not one-time fixes. We document our work so future visits are faster
+            and more efficient.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section id="approach" class="section">
+      <div class="section-header">
+        <div class="section-title">How we operate</div>
+        <div class="section-subtitle">
+          Bragg &amp; Bailey runs on a simple, repeatable process that keeps expectations clear for both
+          seniors and their families.
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>1. Discovery call</h3>
+          <p>
+            A brief phone conversation to understand the situation, devices involved, and any urgency.
+            Family members or caregivers are welcome on the call.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2. Written agreement</h3>
+          <p>
+            Before the visit, we provide a concise, plain-language summary:
+            what we will work on, what it will cost, and any limitations.
+          </p>
+        </div>
+        <div class="card">
+          <h3>3. On-site execution &amp; documentation</h3>
+          <p>
+            During the visit we document key changes, capture photos where appropriate, and leave behind
+            simple reference notes if useful.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards" style="margin-top: 1rem;">
+        <div class="card">
+          <h3>4. Follow-up</h3>
+          <p>
+            We reach out after the engagement to confirm everything is working and answer any short questions
+            related to the visit.
+          </p>
+        </div>
+        <div class="card">
+          <h3>5. Governance &amp; privacy</h3>
+          <p>
+            We treat personal information, passwords, and accounts with the same care we would for our own family.
+            Sensitive details are never stored unnecessarily.
+          </p>
+        </div>
+        <div class="card">
+          <h3>6. Relationship-driven</h3>
+          <p>
+            Many clients work with us on a recurring basis as technology changes.
+            Our documentation makes each subsequent visit faster and more predictable.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Bragg &amp; Bailey · Senior Technology Consulting · All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
